@@ -1,4 +1,4 @@
-rootProject.name = "MyApplication"
+rootProject.name = "PinBlock"
 
 include(":androidApp")
 include(":shared")
