@@ -232,20 +232,19 @@ object PinBlock {
      * @param pan the primary account number in byte array
      * @param panSize the PAN nibble size
      * @param encodedPin the personal identification number in byte array
-     * @param pinSize the PIN nibble size
      * @return the decoded pin in byte array
      */
     @JvmStatic
     @Throws(IllegalArgumentException::class)
-    fun decode(format: Format, pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>, pinSize: Int): Array<Byte> {
+    fun decode(format: Format, pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>): Array<Byte> {
         return when (format) {
-            Format.ISO_0 -> decodeISO_0(pan, panSize, encodedPin, pinSize)
-            Format.ISO_3 -> decodeISO_3(pan, panSize, encodedPin, pinSize)
+            Format.ISO_0 -> decodeISO_0(pan, panSize, encodedPin)
+            Format.ISO_3 -> decodeISO_3(pan, panSize, encodedPin)
             else -> throw IllegalArgumentException("$format decoder is not implemented")
         }
     }
 
-    private fun decodeISO_0(pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>, pinSize: Int): Array<Byte> {
+    private fun decodeISO_0(pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>): Array<Byte> {
         val blockDigits = 16 / 2
         val panDigits = 12 / 2
 
@@ -264,7 +263,7 @@ object PinBlock {
         return pinBlock.toTypedArray().copyOfRange(1, (pinBlock[0] and 0x0F) / 2 + 1)
     }
 
-    private fun decodeISO_3(pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>, pinSize: Int): Array<Byte> {
+    private fun decodeISO_3(pan: Array<Byte>, panSize: Int, encodedPin: Array<Byte>): Array<Byte> {
         val blockDigits = 16 / 2
         val panDigits = 12 / 2
 
